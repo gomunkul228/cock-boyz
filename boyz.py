@@ -42,7 +42,7 @@ class my_boy:
         return list(map(lambda x: dist(x,[self.x,self.y]), pos_balls))
 
 
-
+#нужно добавить магию
 # game loop
 while True:
     pos_balls = []
