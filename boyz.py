@@ -120,25 +120,27 @@ while True:
 #    else:
 #        move_boy1 = boy1.nearest_ball()
 #        move_boy2 = boy2.nearest_ball()
-       
+    same_accio = 0   
             
     for i in boys:
         
         
         if i == boy1.entity_id:
-            ac = list(filter(lambda x: check_accio(x) and dist(x,boy1.get_pos())<3500 and dist(x,boy1.get_pos())>300, pos_balls))
+            ac = list(filter(lambda x: check_accio(x) and dist(x,boy1.get_pos())<4000 and dist(x,boy1.get_pos())>600 and dist(x,boy2.get_pos())>600, pos_balls))
             if boy1.state == 1:
                 print("THROW " + str(goal[0]) + " " + str(goal[1]) + " " + str(500))
-            elif ac != [] and my_magic > 15:
-                print("ACCIO " + str(dict_balls[str(ac.pop(0))]))
+            elif ac != [] and my_magic > 15 and same_accio != dict_balls[str(ac[0])]:
+                print("ACCIO " + str(dict_balls[str(ac[0])]))
+                same_accio = dict_balls[str(ac.pop(0))]
             else:
                 print("MOVE " + str(move_boy1[0]) + " " + str(move_boy1[1]) + " " + str(150))
         else:
-            ac = list(filter(lambda x: check_accio(x) and dist(x,boy2.get_pos())<3500 and dist(x,boy2.get_pos())>300, pos_balls))
+            ac = list(filter(lambda x: check_accio(x) and dist(x,boy2.get_pos())<4000 and dist(x,boy2.get_pos())>600 and dist(x,boy1.get_pos())>600, pos_balls))
             if boy2.state == 1:
                 print("THROW " + str(goal[0]) + " " + str(goal[1]) + " " + str(500))
-            elif ac != [] and my_magic > 15:
-                print("ACCIO " + str(dict_balls[str(ac.pop(0))]))
+            elif ac != [] and my_magic > 15 and same_accio != dict_balls[str(ac[0])]:
+                print("ACCIO " + str(dict_balls[str(ac[0])]))
+                same_accio = dict_balls[str(ac.pop(0))]
             else:
                 print("MOVE " + str(move_boy2[0]) + " " + str(move_boy2[1]) + " " + str(150))
             
