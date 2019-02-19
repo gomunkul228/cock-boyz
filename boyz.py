@@ -7,12 +7,14 @@ import math
 my_team_id = int(input())  # if 0 you need to score on the right of the map, if 1 you need to score on the left
 if my_team_id == 1:
     goal = [0,3750]
+    sign = -1
 else:
     goal = [16000,3750]
-
+    sign = 1
 
 def dist(pos1,pos2):
-    return((pos1[0]-pos2[0])**2+(pos1[1]-pos2[1])**2) #пока без корня!   
+    return(math.sqrt((pos1[0]-pos2[0])**2+(pos1[1]-pos2[1])**2))   
+    
     
     
 class ball:
@@ -42,10 +44,14 @@ class my_boy:
         return list(map(lambda x: dist(x,[self.x,self.y]), pos_balls))
 
 
+def check_accio(pos):
+    return sign*(boy1.get_pos()[0] - pos[0]) > 0 and sign*(boy2.get_pos()[0] - pos[0]) > 0
+
 #нужно добавить магию
 # game loop
 while True:
     pos_balls = []
+    dict_balls = {}
     curse_balls = []
     ko=3
     
@@ -78,6 +84,7 @@ while True:
         
         if entity_type == "SNAFFLE" and state == 0:
             pos_balls += [[x,y]]
+            dict_balls[str([x,y])] = entity_id
         elif entity_type == "SNAFFLE":
             curse_balls += [[x,y]]
             
@@ -119,13 +126,19 @@ while True:
         
         
         if i == boy1.entity_id:
+            ac = list(filter(lambda x: check_accio(x) and dist(x,boy1.get_pos())<3500 and dist(x,boy1.get_pos())>300, pos_balls))
             if boy1.state == 1:
                 print("THROW " + str(goal[0]) + " " + str(goal[1]) + " " + str(500))
+            elif ac != [] and my_magic > 15:
+                print("ACCIO " + str(dict_balls[str(ac.pop(0))]))
             else:
                 print("MOVE " + str(move_boy1[0]) + " " + str(move_boy1[1]) + " " + str(150))
         else:
+            ac = list(filter(lambda x: check_accio(x) and dist(x,boy2.get_pos())<3500 and dist(x,boy2.get_pos())>300, pos_balls))
             if boy2.state == 1:
                 print("THROW " + str(goal[0]) + " " + str(goal[1]) + " " + str(500))
+            elif ac != [] and my_magic > 15:
+                print("ACCIO " + str(dict_balls[str(ac.pop(0))]))
             else:
                 print("MOVE " + str(move_boy2[0]) + " " + str(move_boy2[1]) + " " + str(150))
             
